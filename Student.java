@@ -1,74 +1,67 @@
 package Run;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Student {
-	private String bölüm ;
-	private int no;
-	private String name ,surname;	
-	private ArrayList<Lesson> lessons = new ArrayList<>();
-	private Boolean izin =false ;
+    private String firstName;
+    private String lastName;
+    private int id;
+    private String department;
+    private List<Lesson> lessons;
+    private static int idIlkDeger = 232608100;
 
-	public Student(String bölüm, int no, String name, String surname) {
-		this.bölüm = bölüm;
-		this.no = no;
-		this.name = name;
-		this.surname = surname;
-	}
-	
-	public void printLessons() {
-		System.out.println(name+" "+surname+" öðrencisinin dersleri :");
-		System.out.println("----------------------------------------------");
-		for (Lesson l : this.lessons) {
-			l.printLesson();
-		}
-		
-	}
-	
-	public void registerLesson(Lesson l){
-		l.registerStudent(this);
-		this.lessons.add(l);
-	}
-	
-	public String getName() {
-		if (izin)
-			return name;
-		else 
-			return null;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public void printStudent() {
-		System.out.println(no+"-"+name+"-"+surname);
-	}
+    public Student(String firstName, String lastName, String department) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.id = getNextId();
+        this.lessons = new ArrayList<>();
+    }
 
-	public String getBölüm() {
-		return bölüm;
-	}
+    private static int getNextId() {
+        idIlkDeger += 10;
+        return idIlkDeger;
+    }
 
-	public void setBölüm(String bölüm) {
-		this.bölüm = bölüm;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public int getNo() {
-		return no;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setNo(int no) {
-		this.no = no;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getSurname() {
-		return surname;
-	}
+    public String getDepartment() {
+        return department;
+    }
 
-	public void setSurname(String insurname) {
-		this.surname = surname;
-	}
-	
-	
-	
-	
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void addLesson(Lesson lesson) {
+        lessons.add(lesson);
+        lesson.addStudent(this);
+    }
+
+    public void printStudentInfo() {
+        System.out.print("Öğrenci ID: " + id + " - Öğrenci: " + firstName + " " + lastName + " - Bölüm: " + department);
+        for (Lesson lesson : lessons)
+        { 
+        	System.out.print(lesson.getName() + " "); 
+        }
+        
+    }
+
+    public void printLessonsList() {
+        System.out.println("Öğrenci: " + firstName + " " + lastName + " - Ders Listesi:");
+        for (Lesson lesson : lessons) {
+            System.out.println(lesson.getName());
+        }
+    }
 }
